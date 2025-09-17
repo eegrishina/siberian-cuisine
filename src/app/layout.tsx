@@ -1,7 +1,22 @@
 import type { Metadata } from "next";
+import { Raleway, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import { siteConfig } from "@/config/site.config";
+
+export const raleway = Raleway({
+  variable: "--font-raleway",
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "700"],
+  style: ["normal", "italic"],
+});
+
+export const merriweather = Merriweather({
+  variable: "--font-merriweather",
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "700", "900"],
+  style: ["normal", "italic"],
+});
 
 export const metadata: Metadata = {
   title: siteConfig.title,
@@ -14,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru">
+    <html lang="ru" className={`${raleway.variable} ${merriweather.variable}`}>
       <body>
         <Providers>
           <main className="layout-main flex flex-col w-full justify-start items-center">
