@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { HeroUIProvider } from "@heroui/react";
 import "./globals.css";
+import { Providers } from "@/providers/Providers";
+import { siteConfig } from "@/config/site.config";
 
 export const metadata: Metadata = {
-  title: "Сибирская кухня",
-  description: "Рецепты сибирской кухни",
+  title: siteConfig.title,
+  description: siteConfig.description,
 };
 
 export default function RootLayout({
@@ -13,9 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body>
-        <HeroUIProvider>{children}</HeroUIProvider>
+        <Providers>
+          <main className="layout-main flex flex-col w-full justify-start items-center">
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );
