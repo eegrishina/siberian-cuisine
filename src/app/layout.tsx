@@ -3,6 +3,8 @@ import { Raleway, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import { siteConfig } from "@/config/site.config";
+import Header from "@/components/UI/Header";
+import Footer from "@/components/UI/Footer";
 
 export const raleway = Raleway({
   variable: "--font-raleway",
@@ -32,9 +34,11 @@ export default function RootLayout({
     <html lang="ru" className={`${raleway.variable} ${merriweather.variable}`}>
       <body>
         <Providers>
+          <Header />
           <main className="layout-main flex flex-col w-full justify-start items-center">
             {children}
           </main>
+          <Footer />
         </Providers>
       </body>
     </html>
