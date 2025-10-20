@@ -1,10 +1,28 @@
 import type { Metadata } from "next";
-import { HeroUIProvider } from "@heroui/react";
+import { Raleway, Merriweather } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/providers/Providers";
+import { siteConfig } from "@/config/site.config";
+import Header from "@/components/UI/Header";
+import Footer from "@/components/UI/Footer";
+
+export const raleway = Raleway({
+  variable: "--font-raleway",
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "700"],
+  style: ["normal", "italic"],
+});
+
+export const merriweather = Merriweather({
+  variable: "--font-merriweather",
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "700", "900"],
+  style: ["normal", "italic"],
+});
 
 export const metadata: Metadata = {
-  title: "Сибирская кухня",
-  description: "Рецепты сибирской кухни",
+  title: siteConfig.title,
+  description: siteConfig.description,
 };
 
 export default function RootLayout({
@@ -13,9 +31,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru" className={`${raleway.variable} ${merriweather.variable}`}>
       <body>
-        <HeroUIProvider>{children}</HeroUIProvider>
+        <Providers>
+          <Header />
+          <main className="layout-main flex flex-col w-full justify-start items-center">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

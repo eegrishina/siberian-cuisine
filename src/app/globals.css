@@ -4,26 +4,91 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --white: #ffffff;
+  --dark: #171717;
+  --mint: #d6e8e3;
+  --mint-dark: #2c2a2b;
+
+  --brown-100: #59474e;
+  --brown-200: #7f5b53;
+  --brown-300: #cb8252;
+  --brown-400: #af8066;
+
+  --header-height: 70px;
+  --footer-height: 90px;
+
+  --background: var(--white);
+  --foreground: var(--dark);
+  --header-bg: var(--mint);
+  --footer-bg: var(--mint);
+  --header-text: var(--brown-100);
+  --footer-text: var(--foreground);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-white: var(--white);
+  --color-dark: var(--dark);
+  --color-mint: var(--mint);
+  --color-mint-dark: var(--mint-dark);
+
+  --color-brown-100: var(--brown-100);
+  --color-brown-200: var(--brown-200);
+  --color-brown-300: var(--brown-300);
+  --color-brown-400: var(--brown-400);
+
+  --color-header-bg: var(--header-bg);
+  --color-footer-bg: var(--footer-bg);
+  --color-header-text: var(--header-text);
+  --color-footer-text: var(--footer-text);
+
+  --font-sans: var(--font-raleway), ui-sans-serif, system-ui, sans-serif;
+  --font-header: var(--font-merriweather), ui-serif, system-ui, serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #171717;
     --foreground: #ededed;
+    --header-bg: var(--mint-dark);
+    --footer-bg: var(--mint-dark);
+    --header-text: var(--white);
+    --footer-text: var(--white);
   }
+}
+
+.dark {
+  --background: #171717;
+  --foreground: #ededed;
+  --header-bg: var(--mint-dark);
+  --footer-bg: var(--mint-dark);
+  --header-text: var(--white);
+  --footer-text: var(--white);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  box-sizing: border-box;
+}
+
+.layout-header {
+  height: var(--header-height);
+  background-color: var(--header-bg);
+  color: var(--header-text);
+}
+
+.layout-footer {
+  height: var(--footer-height);
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  position: relative;
+}
+
+.layout-main {
+  height: calc(100vh - var(--header-height) - var(--footer-height));
+  background-color: var(--background);
 }
