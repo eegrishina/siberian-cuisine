@@ -3,8 +3,8 @@ import { Raleway, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import { siteConfig } from "@/config/site.config";
-import Header from "@/components/UI/Header";
-import Footer from "@/components/UI/Footer";
+import Header from "@/components/UI/layout/Header";
+import Footer from "@/components/UI/layout/Footer";
 
 export const raleway = Raleway({
   variable: "--font-raleway",
@@ -31,7 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${raleway.variable} ${merriweather.variable}`}>
+    <html
+      lang="ru"
+      className={`${raleway.variable} ${merriweather.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <Providers>
           <Header />
