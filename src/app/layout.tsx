@@ -7,6 +7,7 @@ import Header from "@/components/UI/layout/Header";
 import Footer from "@/components/UI/layout/Footer";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth/auth";
+import AppLoader from "@/hoc/app-loader";
 
 export const raleway = Raleway({
   variable: "--font-raleway",
@@ -43,11 +44,13 @@ export default async function RootLayout({
       <body>
         <Providers>
           <SessionProvider session={session}>
-            <Header />
-            <main className="layout-main flex flex-col w-full justify-start items-center">
-              {children}
-            </main>
-            <Footer />
+            <AppLoader>
+              <Header />
+              <main className="layout-main flex flex-col w-full justify-start items-center">
+                {children}
+              </main>
+              <Footer />
+            </AppLoader>
           </SessionProvider>
         </Providers>
       </body>
