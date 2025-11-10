@@ -5,6 +5,8 @@ import { Providers } from "@/providers/Providers";
 import { siteConfig } from "@/config/site.config";
 import Header from "@/components/UI/layout/Header";
 import Footer from "@/components/UI/layout/Footer";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth/auth";
 
 export const raleway = Raleway({
   variable: "--font-raleway",
@@ -25,11 +27,13 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html
       lang="ru"
@@ -38,11 +42,13 @@ export default function RootLayout({
     >
       <body>
         <Providers>
-          <Header />
-          <main className="layout-main flex flex-col w-full justify-start items-center">
-            {children}
-          </main>
-          <Footer />
+          <SessionProvider session={session}>
+            <Header />
+            <main className="layout-main flex flex-col w-full justify-start items-center">
+              {children}
+            </main>
+            <Footer />
+          </SessionProvider>
         </Providers>
       </body>
     </html>

@@ -1,5 +1,6 @@
 "use client";
 
+import { signInWithCredentials } from "@/actions/sign-in";
 import { Button, Form, Input } from "@heroui/react";
 import { useState } from "react";
 
@@ -11,12 +12,18 @@ const LoginForm = ({ onClose }: IProps) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted: ", formData);
+
+    const result = await signInWithCredentials(
+      formData.email,
+      formData.password
+    );
+    console.log("result", result);
+
     onClose();
   };
 
@@ -48,7 +55,7 @@ const LoginForm = ({ onClose }: IProps) => {
           inputWrapper: "bg-default-100",
           input: "text-sm focus:outline-none",
         }}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
         validate={(value) => {
           if (!value) return "Пароль обязателен";
           return null;

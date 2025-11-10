@@ -14,6 +14,8 @@ import { usePathname } from "next/navigation";
 import RegistrationModal from "../modals/RegistrationModal";
 import LoginModal from "../modals/LoginModal";
 import { useState } from "react";
+import { signOutFunc } from "@/actions/sign-out";
+import { useSession } from "next-auth/react";
 
 export const Logo = () => {
   return (
@@ -29,9 +31,18 @@ export const Logo = () => {
 
 export default function Header() {
   const pathname = usePathname();
+  const { data: session, status } = useSession();
+  console.log("session", session);
+  console.log("status", status);
+
+  const isAuth = status === "authenticated";
 
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+  const handleSignOut = async () => {
+    await signOutFunc();
+  };
 
   const getNavItems = () => {
     return siteConfig.navItems.map((item) => {
@@ -73,29 +84,46 @@ export default function Header() {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Button
-            as={Link}
-            href="#"
-            variant="flat"
-            className="transition-colors duration-200 text-[14px] bg-transparent hover:text-brown-300"
-            onPress={() => setIsLoginOpen(true)}
-          >
-            Вход
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={Link}
-            color="primary"
-            href="#"
-            variant="flat"
-            className="bg-brown-300 text-white hover:bg-brown-200"
-            onPress={() => setIsRegistrationOpen(true)}
-          >
-            Регистрация
-          </Button>
-        </NavbarItem>
+        {isAuth && <p>Добро пожаловать, {session?.user?.email}!</p>}
+        {!isAuth ? (
+          <>
+            <NavbarItem className="hidden lg:flex">
+              <Button
+                as={Link}
+                href="#"
+                variant="flat"
+                className="transition-colors duration-200 text-[14px] bg-transparent hover:text-brown-300"
+                onPress={() => setIsLoginOpen(true)}
+              >
+                Вход
+              </Button>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                as={Link}
+                color="primary"
+                href="#"
+                variant="flat"
+                className="bg-brown-300 text-white hover:bg-brown-200"
+                onPress={() => setIsRegistrationOpen(true)}
+              >
+                Регистрация
+              </Button>
+            </NavbarItem>
+          </>
+        ) : (
+          <NavbarItem className="hidden lg:flex">
+            <Button
+              as={Link}
+              href="#"
+              variant="flat"
+              className="transition-colors duration-200 text-[14px] bg-transparent hover:text-brown-300"
+              onPress={handleSignOut}
+            >
+              Выйти
+            </Button>
+          </NavbarItem>
+        )}
       </NavbarContent>
 
       <RegistrationModal
