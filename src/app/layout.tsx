@@ -3,8 +3,11 @@ import { Raleway, Merriweather } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import { siteConfig } from "@/config/site.config";
-import Header from "@/components/UI/Header";
-import Footer from "@/components/UI/Footer";
+import Header from "@/components/UI/layout/Header";
+import Footer from "@/components/UI/layout/Footer";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth/auth";
+import AppLoader from "@/hoc/app-loader";
 
 export const raleway = Raleway({
   variable: "--font-raleway",
@@ -25,20 +28,30 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
-    <html lang="ru" className={`${raleway.variable} ${merriweather.variable}`}>
+    <html
+      lang="ru"
+      className={`${raleway.variable} ${merriweather.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <Providers>
-          <Header />
-          <main className="layout-main flex flex-col w-full justify-start items-center">
-            {children}
-          </main>
-          <Footer />
+          <SessionProvider session={session}>
+            <AppLoader>
+              <Header />
+              <main className="layout-main flex flex-col w-full justify-start items-center">
+                {children}
+              </main>
+              <Footer />
+            </AppLoader>
+          </SessionProvider>
         </Providers>
       </body>
     </html>

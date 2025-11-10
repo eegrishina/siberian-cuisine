@@ -1,7 +1,7 @@
 "use client";
 
 import { siteConfig } from "@/config/site.config";
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemeToggle } from "../ThemeToggle";
 
 export default function Footer() {
   return (
