@@ -48,14 +48,22 @@ export default function Header() {
   };
 
   const getNavItems = () => {
-    return siteConfig.navItems.map((item) => {
-      const isActive = pathname === item.href;
-      return (
-        <NavbarItem key={item.href}>
-          <Link
-            color="header-bg"
-            href={item.href}
-            className={`px-4 py-2.5 
+    return siteConfig.navItems
+      .filter((item) => {
+        if (item.href === "/ingredients") {
+          return isAuth;
+        }
+        return true;
+      })
+      .map((item) => {
+        const isActive = pathname === item.href;
+
+        return (
+          <NavbarItem key={item.href}>
+            <Link
+              color="header-bg"
+              href={item.href}
+              className={`px-4 py-2.5 
                   border rounded-medium transition-all duration-200
                   text-header-text
                   ${
@@ -63,12 +71,12 @@ export default function Header() {
                       ? "border-header-text"
                       : "border-transparent hover:border-brown-400"
                   }`}
-          >
-            {item.label}
-          </Link>
-        </NavbarItem>
-      );
-    });
+            >
+              {item.label}
+            </Link>
+          </NavbarItem>
+        );
+      });
   };
 
   return (
