@@ -36,7 +36,7 @@ const IngredientForm = () => {
   };
 
   return (
-    <Form className="w-[400px]" action={handleSubmit}>
+    <Form className="w-full" action={handleSubmit}>
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       <Input

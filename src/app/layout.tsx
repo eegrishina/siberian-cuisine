@@ -46,12 +46,16 @@ export default async function RootLayout({
         <Providers>
           <SessionProvider session={session}>
             <AppLoader>
-              <Header />
-              <Title />
-              <main className="layout-main flex flex-col w-max-[1024px] mx-auto px-[24px] justify-start items-center">
-                {children}
-              </main>
-              <Footer />
+              <div className="flex min-h-screen flex-col justify-between">
+                <div className="flex flex-col">
+                  <Header />
+                  <main className="layout-main flex flex-col w-max-[1024px] mx-auto px-[24px] justify-start items-center">
+                    <Title />
+                    {children}
+                  </main>
+                </div>
+                <Footer />
+              </div>
             </AppLoader>
           </SessionProvider>
         </Providers>
